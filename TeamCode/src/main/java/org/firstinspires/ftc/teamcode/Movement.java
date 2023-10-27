@@ -27,6 +27,47 @@ public class Movement extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double forward = gamepad1.left_stick_y;
+            double strafe = -gamepad1.left_stick_x;
+            double rotate = gamepad1.right_stick_x;
+
+            //Gamepad 1 Code
+            if(gamepad1.right_trigger >= 0.5){
+                maxSpeed = 0.1;
+                mecanumDrive.setMaxSpeed(0.1);
+            }
+            else{
+                maxSpeed = 0.5;
+                mecanumDrive.setMaxSpeed(1);
+            }
+
+            if(gamepad1.x)
+            {
+                arm.setPower(-0.3);
+            }
+            else if(gamepad1.y)
+            {
+                arm.setPower(0.3);
+            }
+            else
+            {
+                arm.setPower(0.1);
+            }
+
+            if(gamepad1.right_bumper)
+            {
+                rightServo.setPosition(0.5);
+                leftServo.setPosition(0.8);
+            }
+            else
+            {
+                rightServo.setPosition(-1);
+                leftServo.setPosition(0.8);
+            }
+
+            mecanumDrive.driveMecanum(forward, strafe, rotate);
+
+            telemetry.addData("Max Speed = ", maxSpeed);
+            telemetry.update();
         }
     }
 }
