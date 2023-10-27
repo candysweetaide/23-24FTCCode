@@ -55,11 +55,11 @@ public class MecanumDrive {
         /*
         rightLift = hwMap.get(DcMotor.class, "rightLift");
         leftLift = hwMap.get(DcMotor.class, "leftLift");
+         */
 
 
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        */
     }
 
     void setEndPowerBehaviorBrake() {
@@ -85,9 +85,9 @@ public class MecanumDrive {
     }
 
     void driveMecanum(double forward, double strafe, double rotate) {
-        double frontLeftSpeed = forward + strafe + rotate;
+        double frontLeftSpeed = forward - strafe + rotate;
         double frontRightSpeed = forward - strafe - rotate;
-        double backLeftSpeed = forward - strafe + rotate;
+        double backLeftSpeed = forward + strafe + rotate;
         double backRightSpeed = forward + strafe - rotate;
 
         setSpeeds(frontLeftSpeed, frontRightSpeed, backLeftSpeed, backRightSpeed);

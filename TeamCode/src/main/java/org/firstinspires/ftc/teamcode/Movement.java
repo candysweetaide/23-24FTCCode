@@ -15,9 +15,9 @@ public class Movement extends LinearOpMode {
 
     public void runOpMode() {
         mecanumDrive.init(hardwareMap);
-        arm = hardwareMap.get(DcMotor.class, "arm");
-        rightServo = hardwareMap.get(Servo.class, "right");
-        leftServo = hardwareMap.get(Servo.class, "left");
+        //arm = hardwareMap.get(DcMotor.class, "arm");
+        //rightServo = hardwareMap.get(Servo.class, "right");
+        //leftServo = hardwareMap.get(Servo.class, "left");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -40,7 +40,7 @@ public class Movement extends LinearOpMode {
                 mecanumDrive.setMaxSpeed(1);
             }
 
-            if(gamepad1.x)
+            /*if(gamepad1.x)
             {
                 arm.setPower(-0.3);
             }
@@ -51,9 +51,9 @@ public class Movement extends LinearOpMode {
             else
             {
                 arm.setPower(0.1);
-            }
+            }*/
 
-            if(gamepad1.right_bumper)
+            /*if(gamepad1.right_bumper)
             {
                 rightServo.setPosition(0.5);
                 leftServo.setPosition(0.8);
@@ -62,7 +62,7 @@ public class Movement extends LinearOpMode {
             {
                 rightServo.setPosition(-1);
                 leftServo.setPosition(0.8);
-            }
+            }*/
 
             mecanumDrive.driveMecanum(forward, strafe, rotate);
 
