@@ -27,7 +27,7 @@ public class Movement extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double forward = gamepad1.left_stick_y;
-            double strafe = -gamepad1.left_stick_x;
+            double strafe = gamepad1.left_stick_x;
             double rotate = gamepad1.right_stick_x;
 
             //Gamepad 1 Code
