@@ -125,18 +125,14 @@ public class CameraTest extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
-        driveForward(0.5, 3);
+        driveForward(0.5, 2.3);
 
         if (cupPosition == 1) {
-            strafeRight(0.5, 2);
-            driveForward(0.5, 1);
-            strafeLeft(0.5, 4);
+            strafeLeftTurn(0.2, 2);
         } else if (cupPosition == 2) {
-            driveForward(0.5, 1);
+            driveForward(0.2, 1);
         } else if (cupPosition == 3) {
-            strafeLeft(0.5, 2);
-            driveForward(0.5, 1);
-            strafeRight(0.5, 4);
+            strafeRightTurn(0.2, 2);
         }
 
         // Step 4:  Stop
@@ -255,6 +251,30 @@ public class CameraTest extends LinearOpMode {
         frontRight.setPower(speed);
         frontLeft.setPower(-speed);
         backRight.setPower(-speed);
+        backLeft.setPower(speed);
+        runtime.reset();
+        while ((runtime.seconds() < time)) {
+            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+    }
+
+    private void strafeLeftTurn(double speed, double time) {
+        frontRight.setPower(speed);
+        frontLeft.setPower(-speed*0.7);
+        backRight.setPower(speed);
+        backLeft.setPower(-speed*0.7);
+        runtime.reset();
+        while ((runtime.seconds() < time)) {
+            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+    }
+
+    private void strafeRightTurn(double speed, double time) {
+        frontRight.setPower(-speed*0.7);
+        frontLeft.setPower(speed);
+        backRight.setPower(-speed*0.7);
         backLeft.setPower(speed);
         runtime.reset();
         while ((runtime.seconds() < time)) {
