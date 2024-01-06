@@ -45,7 +45,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 
 
-@Autonomous(name="BlueLong", group="Robot")
+@Autonomous(name="CameraTest", group="Robot")
 public class CameraTest extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -66,6 +66,11 @@ public class CameraTest extends LinearOpMode {
 
     private TfodProcessor tfod;
     private VisionPortal visionPortal;
+
+    //1 = left
+    //2 = middle
+    //3 = right
+    private int cupPosition = 1;
 
     @Override
     public void runOpMode() {
@@ -91,6 +96,7 @@ public class CameraTest extends LinearOpMode {
                 telemetryTfod();
 
                 // Push telemetry to the Driver Station.
+                telemetry.addData("cup Position", cupPosition);
                 telemetry.update();
 
                 // Save CPU resources; can resume streaming when needed.
@@ -233,7 +239,7 @@ public class CameraTest extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.75f);
+        tfod.setMinResultConfidence(0.50f);
 
         // Disable or re-enable the TFOD processor at any time.
         visionPortal.setProcessorEnabled(tfod, true);
@@ -244,17 +250,26 @@ public class CameraTest extends LinearOpMode {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
-
+        double xValue = 0;
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            xValue = x;
 
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
         }   // end for() loop
+
+        if (currentRecognitions.size() == 0) {
+            cupPosition = 3;
+        } else if (xValue < 200) {
+            cupPosition = 1;
+        } else {
+            cupPosition = 2;
+        }
 
     }
 
