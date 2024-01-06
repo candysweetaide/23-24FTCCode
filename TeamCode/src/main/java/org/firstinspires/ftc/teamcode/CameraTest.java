@@ -1,3 +1,32 @@
+/* CopyLeft (c) 2017 FIRST. All Lefts reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted (subject to the limitations in the disclaimer below) provided that
+ * the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyLeft notice, this list
+ * of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyLeft notice, this
+ * list of conditions and the following disclaimer in the documentation and/or
+ * other materials provided with the distribution.
+ *
+ * Neither the name of FIRST nor the names of its contributors may be used to endorse or
+ * promote products derived from this software without specific prior written permission.
+ *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT LeftS ARE GRANTED BY THIS
+ * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYLeft HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYLeft OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package org.firstinspires.ftc.teamcode;
 
 import android.util.Size;
@@ -20,11 +49,11 @@ import java.util.List;
 public class CameraTest extends LinearOpMode {
 
     /* Declare OpMode members. */
-    private DcMotor frontLeft   = null;
+    private DcMotor         frontLeft   = null;
     private DcMotor         frontRight  = null;
     private DcMotor         backRight = null;
     private DcMotor         backLeft = null;
-    private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime     runtime = new ElapsedTime();
     static final double     FORWARD_SPEED = 0.2;
     static final double     Faster_FORWARD_SPEED = 0.0;
     static final double     TURN_SPEED    = 0.0;
@@ -56,10 +85,10 @@ public class CameraTest extends LinearOpMode {
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on Right and Left wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
 
         if (!opModeIsActive()) {
             while (!opModeIsActive()) {
@@ -96,18 +125,14 @@ public class CameraTest extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
-        driveForward(0.2, 3);
+        driveForward(0.5, 2.3);
 
         if (cupPosition == 1) {
-            strafeRight(0.2, 2);
-            driveForward(0.2, 1);
-            strafeLeft(0.2, 4);
+            strafeLeftTurn(0.2, 2);
         } else if (cupPosition == 2) {
             driveForward(0.2, 1);
         } else if (cupPosition == 3) {
-            strafeLeft(0.2, 2);
-            driveForward(0.2, 1);
-            strafeRight(0.2, 4);
+            strafeRightTurn(0.2, 2);
         }
 
         // Step 4:  Stop
@@ -226,6 +251,30 @@ public class CameraTest extends LinearOpMode {
         frontRight.setPower(speed);
         frontLeft.setPower(-speed);
         backRight.setPower(-speed);
+        backLeft.setPower(speed);
+        runtime.reset();
+        while ((runtime.seconds() < time)) {
+            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+    }
+
+    private void strafeLeftTurn(double speed, double time) {
+        frontRight.setPower(speed);
+        frontLeft.setPower(-speed*0.7);
+        backRight.setPower(speed);
+        backLeft.setPower(-speed*0.7);
+        runtime.reset();
+        while ((runtime.seconds() < time)) {
+            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+    }
+
+    private void strafeRightTurn(double speed, double time) {
+        frontRight.setPower(-speed*0.7);
+        frontLeft.setPower(speed);
+        backRight.setPower(-speed*0.7);
         backLeft.setPower(speed);
         runtime.reset();
         while ((runtime.seconds() < time)) {
