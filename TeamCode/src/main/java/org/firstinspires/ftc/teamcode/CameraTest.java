@@ -59,7 +59,7 @@ public class CameraTest extends LinearOpMode {
     static final double     TURN_SPEED    = 0.0;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-    private static final String TFOD_MODEL_ASSET = "x.tflite";
+    private static final String TFOD_MODEL_ASSET = "GreenCup.tflite";
     private static final String[] LABELS = {
             "redcup"
     };
